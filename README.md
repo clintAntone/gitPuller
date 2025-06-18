@@ -1,27 +1,24 @@
-# Git Repositories Auto-Updater
+# Git Auto Update Script
 
-This bash script loops through all Git repositories in a specified directory, checks if they are on the `main` branch, and performs one of the following:
-
-- If **not** on the `main` branch, it **skips** the repository.
-- If on `main`:
-  - If there are **uncommitted changes**, it displays them and asks if you want to commit them.
-  - If there are **no changes**, it performs `git stash`, `git pull`, and then `git stash pop`.
+This script automates updating multiple Git repositories located under a specified base directory.
 
 ---
 
-## 📜 Features
+## 🚀 Features
 
-- Skips repositories not on the `main` branch.
-- Displays a list of uncommitted changes, if any.
-- Optionally commits uncommitted changes with a message.
-- Stashes and pulls the latest code from the remote if clean.
-- Includes untracked files in stashes for safe pulls.
+- ✅ Automatically finds and processes all Git repositories (recursively).
+- ✅ Works only on repositories currently on the `main` branch.
+- ✅ Skips dirty repositories **by default**.
+- ✅ Optionally commits dirty repos with a batch commit message (`--commit --message`).
+- ✅ Automatically stashes and pulls latest changes for clean repos.
+- ✅ Automatically updates Git submodules if present.
+- ✅ Logging is **enabled by default** (writes to `git_auto_update.log`).
+- ✅ Optionally supports dry-run mode (`--dry-run`).
+- ✅ Supports repository blacklist (skip specific folders).
 
 ---
 
-## 🚀 Usage
+## 📦 Usage
 
-1. Make the script executable:
-
-   ```bash
-   chmod +x gitPuller.sh
+```bash
+./gitPuller.sh /path/to/repos [options]
