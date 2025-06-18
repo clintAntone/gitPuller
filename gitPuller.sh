@@ -58,17 +58,15 @@ find "$BASE_DIR" -type d -name ".git" | while read -r git_dir; do
     echo "[$REPO_NAME] Skipped (in skip list)"
     continue
   fi
-
-  echo "[$REPO_NAME] Processing..."
+  
   cd "$REPO_DIR" || continue
 
   CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
   if [[ -z "$CURRENT_BRANCH" ]]; then
-    echo "[$REPO_NAME] Skipped (not on a valid branch or detached HEAD)"
-    [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Skipped (detached HEAD or no branch)" >> "$LOG_FILE"
-    continue
+   continue
   fi
 
+  echo "[$REPO_NAME] Processing..."
   if [[ "$CURRENT_BRANCH" != "master" ]]; then
     echo "[$REPO_NAME] Skipped (on $CURRENT_BRANCH, not master)"
     [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Skipped (on $CURRENT_BRANCH, not master)" >> "$LOG_FILE"
