@@ -63,8 +63,15 @@ find "$BASE_DIR" -type d -name ".git" | while read -r git_dir; do
   cd "$REPO_DIR" || continue
 
   CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
-  if [[ "$CURRENT_BRANCH" != "main" ]]; then
-    echo "[$REPO_NAME] Skipped (on $CURRENT_BRANCH, not main)"
+  if [[ -z "$CURRENT_BRANCH" ]]; then
+    echo "[$REPO_NAME] Skipped (not on a valid branch or detached HEAD)"
+    [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Skipped (detached HEAD or no branch)" >> "$LOG_FILE"
+    continue
+  fi
+
+  if [[ "$CURRENT_BRANCH" != "master" ]]; then
+    echo "[$REPO_NAME] Skipped (on $CURRENT_BRANCH, not master)"
+    [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Skipped (on $CURRENT_BRANCH, not master)" >> "$LOG_FILE"
     continue
   fi
 
@@ -90,11 +97,6 @@ find "$BASE_DIR" -type d -name ".git" | while read -r git_dir; do
       git stash pop
     fi
     [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Pulled latest" >> "$LOG_FILE"
-  fi
-
-  if [[ -f .gitmodules && "$DRY_RUN" == false ]]; then
-    git submodule update --init --recursive
-    [[ "$LOG" == true ]] && echo "$(date): [$REPO_NAME] Updated submodules" >> "$LOG_FILE"
   fi
 
   echo "[$REPO_NAME] Done."
