@@ -24,4 +24,4 @@ This bash script loops through all Git repositories in a specified directory, ch
 1. Make the script executable:
 
    ```bash
-   chmod +x check_git_repos.sh
+   chmod +x gitPuller.sh
