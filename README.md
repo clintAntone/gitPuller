@@ -22,3 +22,24 @@ This script automates updating multiple Git repositories located under a specifi
 
 ```bash
 ./gitPuller.sh /path/to/repos [options]
+```
+
+---
+
+## ⚙️ Options
+Flag	Description
+- --commit	Enable auto-commit for dirty repositories. Used with --message.
+- --message "msg"	Required when using --commit. This is the commit message.
+- --dry-run	Show what the script would do without making changes.
+- --no-log	Disable logging to git_auto_update.log.
+- /path/to/repos	The root folder containing your Git repositories (required).
+
+---
+
+## 🔄 Default Behavior
+- Dirty repos are skipped unless you use --commit and --message.
+- Clean repos:
+  - Are automatically stashed
+  - Pulled from remote
+-- Stash is popped
+- All actions are logged by default to git_auto_update.log.
